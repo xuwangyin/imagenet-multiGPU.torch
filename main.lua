@@ -12,6 +12,7 @@ require 'paths'
 require 'xlua'
 require 'optim'
 require 'nn'
+
 paths.dofile('fbcunn_files/AbstractParallel.lua')
 paths.dofile('fbcunn_files/ModelParallel.lua')
 paths.dofile('fbcunn_files/DataParallel.lua')

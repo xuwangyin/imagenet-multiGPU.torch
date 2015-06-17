@@ -92,6 +92,7 @@ function train()
    top1_epoch = 0
    loss_epoch = 0
    for i=1,opt.epochSize do
+      if i % 100 == 0 then collectgarbage() end
       -- queue jobs to data-workers
       donkeys:addjob(
          -- the job callback (runs in data-worker thread)
