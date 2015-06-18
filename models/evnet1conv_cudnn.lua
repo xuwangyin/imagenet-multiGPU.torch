@@ -19,19 +19,20 @@ function createModel(nGPU)
    local normkernel = image.gaussian1D(7)
    local model
 
-   if false then
+   if true then
       -- a typical modern convolution network (conv+relu+pool)
       model = nn.Sequential()
 
-      model:add(nn.SpatialConvolutionMM(nfeats, 16, filtsize, filtsize))
+      model:add(nn.SpatialConvolutionMM(nfeats, 32, filtsize, filtsize))
       model:add(nn.ReLU())
       model:add(nn.SpatialMaxPooling(poolsize,poolsize,poolsize,poolsize))
 
-      model:add(nn.View(16 * 14 *14))
+      model:add(nn.View(32 * 14 *14))
       model:add(nn.Dropout(0.5))
-      model:add(nn.Linear(16 * 14 * 14, nstates[3]))
+      model:add(nn.Linear(32 * 14 * 14, nstates[3]))
       model:add(nn.ReLU())
       model:add(nn.Linear(nstates[3], noutputs))
+      model:add(nn.LogSoftMax())
    else
       -- a typical convolutional network, with locally-normalized hidden
       -- units, and L2-pooling

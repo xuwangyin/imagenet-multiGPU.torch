@@ -32,7 +32,7 @@ function M.parse(arg)
     cmd:option('-nDonkeys',        0, 'number of donkeys to initialize (data loading threads)')
     ------------- Training options --------------------
     cmd:option('-nEpochs',         55,    'Number of total epochs to run')
-    cmd:option('-epochSize',       10000, 'Number of batches per epoch')
+    cmd:option('-epochSize',       50000, 'Number of batches per epoch')
     cmd:option('-epochNumber',     1,     'Manual epoch number (useful on restarts)')
     cmd:option('-batchSize',       128,   'mini-batch size (1 = pure stochastic)')
     ---------- Optimization options ----------------------
@@ -51,7 +51,7 @@ function M.parse(arg)
                             cmd:string('result', opt,
                                        {retrain=true, optimState=true, cache=true, data=true}))
     -- add date/time
-    opt.save = paths.concat(opt.save, ',' .. os.date():gsub(' ',''))
+    opt.save = paths.concat(opt.save, '' .. os.date():gsub(' ',''))
     return opt
 end
 

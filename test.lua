@@ -16,6 +16,7 @@ end
 local batchNumber
 local top1_center, loss
 local timer = torch.Timer()
+local confusion = optim.ConfusionMatrix(#testLoader.classes)
 
 function test()
    print('==> doing epoch on validation data:')
@@ -53,12 +54,21 @@ function test()
       ['% top1 accuracy (test set) (center crop)'] = top1_center,
       ['avg loss (test set)'] = loss
    }
+   print(confusion)
+   local file = io.open(paths.concat(opt.save, 'confusion.log'), 'aw')
+   file:write('epoch ' .. epoch .. '\n')
+   file:write(tostring(confusion))
+   file:write('\n')
+   file:flush()
+   file:close()
+   print("\n")
    print(string.format('Epoch: [%d][TESTING SUMMARY] Total Time(s): %.2f \t'
                           .. 'average loss (per batch): %.2f \t '
                           .. 'accuracy [Center](%%):\t top-1 %.2f\t ',
                        epoch, timer:time().real, loss, top1_center))
 
    print('\n')
+   confusion:zero()
 
 
 end -- of test()
@@ -86,6 +96,7 @@ function testBatch(inputsThread, labelsThread)
    local _, pred_sorted = pred:sort(2, true)
    for i=1,pred:size(1) do
       local g = labelsCPU[i]
+      confusion:add(pred_sorted[i][1], g)
       if pred_sorted[i][1] == g then top1_center = top1_center + 1 end
    end
    if batchNumber % 1024 == 0 then

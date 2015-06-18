@@ -68,6 +68,7 @@ end
 trainLogger = optim.Logger(paths.concat(opt.save, 'train.log'))
 local batchNumber
 local top1_epoch, loss_epoch
+local confusion = optim.ConfusionMatrix(#trainLoader.classes)
 
 -- 3. train - this function handles the high-level training loop,
 --            i.e. load data, train model, save model and state to disk
@@ -115,6 +116,14 @@ function train()
       ['% top1 accuracy (train set)'] = top1_epoch,
       ['avg loss (train set)'] = loss_epoch
    }
+   print(confusion)
+   local file = io.open(paths.concat(opt.save, 'confusion.log'), 'aw')
+   file:write('epoch ' .. epoch .. '\n')
+   file:write(tostring(confusion))
+   file:write('\n')
+   file:flush()
+   file:close()
+   print('\n')
    print(string.format('Epoch: [%d][TRAINING SUMMARY] Total Time(s): %.2f\t'
                           .. 'average loss (per batch): %.2f \t '
                           .. 'accuracy(%%):\t top-1 %.2f\t',
@@ -144,6 +153,7 @@ function train()
    sanitize(model)
    torch.save(paths.concat(opt.save, 'model_' .. epoch .. '.t7'), model)
    torch.save(paths.concat(opt.save, 'optimState_' .. epoch .. '.t7'), optimState)
+   confusion:zero()
 end -- of train()
 -------------------------------------------------------------------------------------------
 -- create tensor buffers in main thread and deallocate their storages.
@@ -185,6 +195,7 @@ function trainBatch(inputsThread, labelsThread)
    do
       local _,prediction_sorted = outputs:float():sort(2, true) -- descending
       for i=1,opt.batchSize do
+         confusion:add(prediction_sorted[i][1], labelsCPU[i])
 	 if prediction_sorted[i][1] == labelsCPU[i] then 
 	    top1_epoch = top1_epoch + 1; 
 	    top1 = top1 + 1
