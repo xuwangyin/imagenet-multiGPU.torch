@@ -27,7 +27,7 @@ function M.parse(arg)
     cmd:option('-manualSeed',         2, 'Manually set RNG seed')
     cmd:option('-GPU',                1, 'Default preferred GPU')
     cmd:option('-nGPU',               1, 'Number of GPUs to use by default')
-    cmd:option('-backend',     'cpu', 'Options: cudnn | fbcunn | cunn')
+    cmd:option('-backend',     'cudnn', 'Options: cudnn | fbcunn | cunn')
     ------------- Data options ------------------------
     cmd:option('-nDonkeys',        0, 'number of donkeys to initialize (data loading threads)')
     ------------- Training options --------------------
