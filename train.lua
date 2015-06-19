@@ -68,7 +68,7 @@ end
 trainLogger = optim.Logger(paths.concat(opt.save, 'train.log'))
 local batchNumber
 local top1_epoch, loss_epoch
-local confusion = optim.ConfusionMatrix(#trainLoader.classes)
+local confusion = optim.ConfusionMatrix(nClasses)
 
 -- 3. train - this function handles the high-level training loop,
 --            i.e. load data, train model, save model and state to disk

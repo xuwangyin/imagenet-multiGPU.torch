@@ -16,7 +16,7 @@ end
 local batchNumber
 local top1_center, loss
 local timer = torch.Timer()
-local confusion = optim.ConfusionMatrix(#testLoader.classes)
+local confusion = optim.ConfusionMatrix(nClasses)
 
 function test()
    print('==> doing epoch on validation data:')

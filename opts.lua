@@ -9,7 +9,7 @@
 local M = { }
 
 function M.parse(arg)
-   local defaultDir = paths.concat(os.getenv('HOME'), 'ev_train')
+   local defaultDir = paths.concat('/mnt/ramdisk/, 'ev_train')
 
     local cmd = torch.CmdLine()
     cmd:text()
@@ -29,7 +29,7 @@ function M.parse(arg)
     cmd:option('-nGPU',               1, 'Number of GPUs to use by default')
     cmd:option('-backend',     'cudnn', 'Options: cudnn | fbcunn | cunn')
     ------------- Data options ------------------------
-    cmd:option('-nDonkeys',        0, 'number of donkeys to initialize (data loading threads)')
+    cmd:option('-nDonkeys',        2, 'number of donkeys to initialize (data loading threads)')
     ------------- Training options --------------------
     cmd:option('-nEpochs',         55,    'Number of total epochs to run')
     cmd:option('-epochSize',       50000, 'Number of batches per epoch')
