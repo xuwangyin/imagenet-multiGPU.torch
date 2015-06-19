@@ -93,7 +93,7 @@ function train()
    top1_epoch = 0
    loss_epoch = 0
    for i=1,opt.epochSize do
-      if i % 100 == 0 then collectgarbage() end
+      if i % 1000 == 0 then collectgarbage() end
       -- queue jobs to data-workers
       donkeys:addjob(
          -- the job callback (runs in data-worker thread)
@@ -204,9 +204,11 @@ function trainBatch(inputsThread, labelsThread)
       top1 = top1 * 100 / opt.batchSize;
    end
    -- Calculate top-1 error, and print information
+   if batchNumber % 10 == 0 then
    print(('Epoch: [%d][%d/%d]\tTime %.3f Err %.4f Top1-%%: %.2f LR %.0e DataLoadingTime %.3f'):format(
           epoch, batchNumber, opt.epochSize, timer:time().real, err, top1,
           optimState.learningRate, dataLoadingTime))
+   end
 
    dataTimer:reset()
 end

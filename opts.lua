@@ -9,7 +9,7 @@
 local M = { }
 
 function M.parse(arg)
-   local defaultDir = paths.concat('/mnt/ramdisk/, 'ev_train')
+   local defaultDir = paths.concat('/mnt/ramdisk/', 'ev_train')
 
     local cmd = torch.CmdLine()
     cmd:text()
@@ -19,7 +19,7 @@ function M.parse(arg)
     ------------ General options --------------------
 
     cmd:option('-cache',
-               defaultDir ..'/cache',
+               '/home/ubuntu/cache',
                'subdirectory in which to save/log experiments')
     cmd:option('-data',
                defaultDir .. '/data',
@@ -32,7 +32,7 @@ function M.parse(arg)
     cmd:option('-nDonkeys',        2, 'number of donkeys to initialize (data loading threads)')
     ------------- Training options --------------------
     cmd:option('-nEpochs',         55,    'Number of total epochs to run')
-    cmd:option('-epochSize',       50000, 'Number of batches per epoch')
+    cmd:option('-epochSize',       100000, 'Number of batches per epoch')
     cmd:option('-epochNumber',     1,     'Manual epoch number (useful on restarts)')
     cmd:option('-batchSize',       128,   'mini-batch size (1 = pure stochastic)')
     ---------- Optimization options ----------------------
