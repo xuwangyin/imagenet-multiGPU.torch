@@ -49,13 +49,13 @@ if paths.filep(trainCache) then
    print('Loading train metadata from cache')
    trainLoader = torch.load(trainCache)
    trainLoader.sampleHookTrain = trainHook
-   assert(trainLoader.paths[1] == paths.concat(opt.data, 'train/en'),
+   assert(trainLoader.paths[1] == paths.concat(opt.data, 'ramdisk'),
           'cached files dont have the same path as opt.data. Remove your cached files at: '
              .. trainCache .. ' and rerun the program')
 else
    print('Creating train metadata')
    trainLoader = dataLoader{
-      paths = {paths.concat(opt.data, 'train/en'), paths.concat(opt.data, 'train/zh')},
+      paths = {paths.concat(opt.data, 'ramdisk'), paths.concat(opt.data, 'ramdisk2')},
       loadSize = {1, 32, 32},
       sampleSize = {1, 32, 32},
       split = 100,
@@ -96,13 +96,13 @@ if paths.filep(testCache) then
    print('Loading test metadata from cache')
    testLoader = torch.load(testCache)
    testLoader.sampleHookTest = testHook
-   assert(testLoader.paths[1] == paths.concat(opt.data, 'val/en'),
+   assert(testLoader.paths[1] == paths.concat(opt.data, 'ramdisk3'),
           'cached files dont have the same path as opt.data. Remove your cached files at: '
              .. testCache .. ' and rerun the program')
 else
    print('Creating test metadata')
    testLoader = dataLoader{
-      paths = {paths.concat(opt.data, 'val/en')},
+      paths = {paths.concat(opt.data, 'ramdisk3')},
       loadSize = {1, 32, 32},
       sampleSize = {1, 32, 32},
       split = 0,

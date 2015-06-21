@@ -9,7 +9,7 @@
 local M = { }
 
 function M.parse(arg)
-   local defaultDir = paths.concat('/mnt/ramdisk/', 'ev_train')
+   local defaultDir = paths.concat('/mnt/', '')
 
     local cmd = torch.CmdLine()
     cmd:text()
@@ -22,7 +22,7 @@ function M.parse(arg)
                '/home/ubuntu/cache',
                'subdirectory in which to save/log experiments')
     cmd:option('-data',
-               defaultDir .. '/data',
+               defaultDir,
                'Home of ImageNet dataset')
     cmd:option('-manualSeed',         2, 'Manually set RNG seed')
     cmd:option('-GPU',                1, 'Default preferred GPU')
