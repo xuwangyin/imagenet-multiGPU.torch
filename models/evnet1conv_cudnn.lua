@@ -8,13 +8,13 @@ function createModel(nGPU)
    local width = 32
    local height = 32
    local ninputs = nfeats*width*height
-   local noutputs = 2
+   local noutputs = nClasses
 
    -- number of hidden units (for MLP only):
    local nhiddens = ninputs / 2
 
    local nstates = {32,32,64}
-   local filtsize = 5
+   local filtsize = 3
    local poolsize = 2
    local normkernel = image.gaussian1D(7)
    local model
@@ -27,9 +27,9 @@ function createModel(nGPU)
       model:add(nn.ReLU())
       model:add(nn.SpatialMaxPooling(poolsize,poolsize,poolsize,poolsize))
 
-      model:add(nn.View(32 * 14 *14))
+      model:add(nn.View(32 * 15 *15))
       model:add(nn.Dropout(0.5))
-      model:add(nn.Linear(32 * 14 * 14, nstates[3]))
+      model:add(nn.Linear(32 * 15 * 15, nstates[3]))
       model:add(nn.ReLU())
       model:add(nn.Linear(nstates[3], noutputs))
       model:add(nn.LogSoftMax())
